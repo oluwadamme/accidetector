@@ -4,7 +4,7 @@ import 'main.dart';
 import 'sensors.dart';
 import 'send_sms.dart';
 import 'package:geolocator/geolocator.dart';
-//import 'package:sensors_plus/sensors_plus.dart';
+import 'package:http/http.dart';
 
 // ignore: must_be_immutable
 class DisplayPage extends StatefulWidget {
@@ -28,7 +28,7 @@ class DisplayPage extends StatefulWidget {
 }
 
 class _DisplayPageState extends State<DisplayPage> {
-  String location = 'OAU Campus Gate';
+  dynamic location;
 
   /// Determine the current position of the device.
   ///
@@ -232,14 +232,21 @@ class _DisplayPageState extends State<DisplayPage> {
                   elevation: 5.0,
                   child: TextButton(
                     onPressed: () async {
-                      // Position position = await _determinePosition();
+                      Position position = await _determinePosition();
+                      location = get(Uri.parse(
+                          "https://api.mapbox.com/geocoding/v5/mapbox.places/${position.longitude},${position.latitude}.json?access_token=pk.eyJ1IjoibXU1dGVlIiwiYSI6ImNreGxyYWVjMjFpd28yeHViaTMxd2NtYWUifQ.MRM4cIK7PhfnnDqyoJnZgg"));
+                      if (location != '') {
+                        print(location["context"]);
+                      } else {
+                        print('No location found');
+                      }
 
                       String message =
-                          "An accident has occured to ${widget.userName} at ${location}! \nPlease send emergency assistance.";
+                          "An accident has occured to ${widget.userName} at ${location.data}! \nPlease send emergency assistance.";
                       String recipents = "+2348057362576";
-                      await HelpSMS()
-                          .send_sms(message, recipents)
-                          .whenComplete(() => print('done'));
+                      // await HelpSMS()
+                      //     .send_sms(message, recipents)
+                      //     .whenComplete(() => print('done'));
                     },
                     child: const Text(
                       'HELP!',
