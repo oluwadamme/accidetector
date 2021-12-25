@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'main.dart';
 import 'sensors.dart';
 import 'send_sms.dart';
+import 'package:geolocator/geolocator.dart';
 //import 'package:sensors_plus/sensors_plus.dart';
 
 // ignore: must_be_immutable
@@ -27,6 +28,49 @@ class DisplayPage extends StatefulWidget {
 }
 
 class _DisplayPageState extends State<DisplayPage> {
+  String location = 'OAU Campus Gate';
+
+  /// Determine the current position of the device.
+  ///
+  /// When the location services are not enabled or permissions
+  /// are denied the `Future` will return an error.
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,23 +191,23 @@ class _DisplayPageState extends State<DisplayPage> {
             const SizedBox(
               height: 30,
             ),
-            SizedBox(
-              height: 30,
-              width: 70,
-              child: Material(
-                borderRadius: BorderRadius.circular(25),
-                shadowColor: Colors.cyanAccent,
-                color: Colors.cyan[800],
-                elevation: 3.0,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => const SensorMainHome()));
-                  },
-                  child: const Center(
-                    child: Text(
+            Center(
+              child: SizedBox(
+                height: 30,
+                width: 70,
+                child: Material(
+                  borderRadius: BorderRadius.circular(25),
+                  shadowColor: Colors.cyanAccent,
+                  color: Colors.cyan[800],
+                  elevation: 3.0,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => const SensorMainHome()));
+                    },
+                    child: const Text(
                       'Start',
                       style: TextStyle(
                         color: Colors.white,
@@ -177,23 +221,27 @@ class _DisplayPageState extends State<DisplayPage> {
               height: 50,
               width: 100,
             ),
-            SizedBox(
-              height: 60,
-              width: 200,
-              child: Material(
-                borderRadius: BorderRadius.circular(25),
-                shadowColor: Colors.redAccent,
-                color: Colors.red[800],
-                elevation: 5.0,
-                child: TextButton(
-                  onPressed: () {
-                    String message =
-                        "An accident has occured to ${widget.userName} at ${location}! \nPlease send emergency assistance.";
-                    List<String> recipents = ["+23408057362576"];
-                    _sendSMS(message, recipents) {}
-                  },
-                  child: const Center(
-                    child: Text(
+            Center(
+              child: SizedBox(
+                height: 60,
+                width: 200,
+                child: Material(
+                  borderRadius: BorderRadius.circular(25),
+                  shadowColor: Colors.redAccent,
+                  color: Colors.red[800],
+                  elevation: 5.0,
+                  child: TextButton(
+                    onPressed: () async {
+                      // Position position = await _determinePosition();
+
+                      String message =
+                          "An accident has occured to ${widget.userName} at ${location}! \nPlease send emergency assistance.";
+                      String recipents = "+2348057362576";
+                      await HelpSMS()
+                          .send_sms(message, recipents)
+                          .whenComplete(() => print('done'));
+                    },
+                    child: const Text(
                       'HELP!',
                       style: TextStyle(
                         color: Colors.black,

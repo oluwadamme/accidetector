@@ -1,15 +1,13 @@
 // Sending message
-
-import 'package:flutter_sms/flutter_sms.dart';
+import 'package:telephony/telephony.dart';
 
 class HelpSMS {
-  void _sendSMS(String message, List<String> recipents) async {
-    String _result = await sendSMS(message: message, recipients: recipents)
-        .catchError((onError) {
-      print(onError);
-    });
-    print(_result);
+  final Telephony telephony = Telephony.instance;
+  Future<void> send_sms(String message, String recipents) async {
+    bool permissionsGranted = await telephony.requestPhoneAndSmsPermissions;
+    permissionsGranted
+        ? telephony.sendSms(to: recipents, message: message)
+        : null;
+    //print(result);
   }
 }
-
-

@@ -218,44 +218,44 @@ class _SignupPageState extends State<SignupPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                SizedBox(
-                  height: 30,
-                  width: 70,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(25),
-                    shadowColor: Colors.cyanAccent,
-                    color: Colors.cyan[800],
-                    elevation: 3.0,
-                    child: TextButton(
-                      onPressed: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        await prefs.setString(
-                            'name', signUpName.text.toString());
-                        await prefs.setString(
-                            'email', signUpEmail.text.toString());
-                        await prefs.setString('num', signUpNum.text.toString());
-                        await prefs.setString(
-                            'kinName', signUpKinName.text.toString());
-                        await prefs.setString(
-                            'kinEmail', signUpKinEmail.text.toString());
-                        await prefs.setString(
-                            'kinNum', signUpKinNum.text.toString());
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (builder) => DisplayPage(
-                                  userName: signUpName.text,
-                                  userEmail: signUpEmail.text,
-                                  userNum: signUpNum.text,
-                                  kinName: signUpKinName.text,
-                                  kinEmail: signUpKinEmail.text,
-                                  kinNum: signUpKinNum.text,)
-                                  
-                                ));
-                      },
-                      child: const Center(
-                        child: Text(
+                Center(
+                  child: SizedBox(
+                    height: 30,
+                    width: 70,
+                    child: Material(
+                      borderRadius: BorderRadius.circular(25),
+                      shadowColor: Colors.cyanAccent,
+                      color: Colors.cyan[800],
+                      elevation: 3.0,
+                      child: TextButton(
+                        onPressed: () async {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          await prefs.setString(
+                              'name', signUpName.text.toString());
+                          await prefs.setString(
+                              'email', signUpEmail.text.toString());
+                          await prefs.setString('num', signUpNum.text.toString());
+                          await prefs.setString(
+                              'kinName', signUpKinName.text.toString());
+                          await prefs.setString(
+                              'kinEmail', signUpKinEmail.text.toString());
+                          await prefs.setString(
+                              'kinNum', signUpKinNum.text.toString());
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (builder) => DisplayPage(
+                                    userName: signUpName.text,
+                                    userEmail: signUpEmail.text,
+                                    userNum: signUpNum.text,
+                                    kinName: signUpKinName.text,
+                                    kinEmail: signUpKinEmail.text,
+                                    kinNum: signUpKinNum.text,)
+                                    
+                                  ));
+                        },
+                        child: const Text(
                           'Submit',
                           style: TextStyle(
                             color: Colors.white,

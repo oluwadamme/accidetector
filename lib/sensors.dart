@@ -155,6 +155,12 @@ class _SensorMainState extends State<SensorMainHome> {
     _eventChannel.receiveBroadcastStream().listen(_onData, onError: _onError);
   }
 
+  @override
+  void dispose() {
+    getSensorsList();
+    super.dispose();
+  }
+
   bool isAMatch(SensorInfoHolder data, Map<String, String> receivedData) {
     // Finds whether it is an instance of target class so that we can use it to update UI.
     return (data.name == receivedData['name'] &&
@@ -165,11 +171,13 @@ class _SensorMainState extends State<SensorMainHome> {
     // on sensor data reception, update data holders of different supported sensor types
     if (!_isFirstUIBuildDone) return;
     Map<String, String> receivedData = Map<String, String>.from(event);
+
     switch (receivedData['type']) {
       case '1':
         for (var item in _listAccelerometer) {
           if (isAMatch(item.sensor, receivedData)) {
             List<String> sensorFeed = receivedData['values'].split(';');
+
             setState(() {
               item.x = sensorFeed[0];
               item.y = sensorFeed[1];
@@ -278,7 +286,7 @@ class _SensorMainState extends State<SensorMainHome> {
     ]) {
       for (var item in elem) {
         tmpUI.add(item.getCard());
-        SaveFile().saveFile(item);
+        // SaveFile().saveFile(item);
       }
     }
     return tmpUI;

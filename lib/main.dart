@@ -123,6 +123,10 @@ class _LoginPageState extends State<LoginPage> {
                                   builder: (builder) => DisplayPage(
                                         userEmail: email,
                                         userName: prefs.getString('name'),
+                                        userNum: prefs.getString('num'),
+                                        kinName: prefs.getString('kinName'),
+                                        kinEmail: prefs.getString('kinEmail'),
+                                        kinNum: prefs.getString('kinNum'),
                                       )));
                         } else {}
                       },
