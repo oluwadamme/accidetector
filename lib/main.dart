@@ -5,7 +5,7 @@ import 'display_page.dart';
 
 void main() {
   runApp(const FirstPage());
-}
+} 
 
 class FirstPage extends StatelessWidget {
   const FirstPage({Key key}) : super(key: key);
