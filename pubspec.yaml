@@ -15,6 +15,9 @@ dependencies:
   shared_preferences: ^0.5.12+4
   path_provider: ^1.6.28
   flutter_sms: ^2.1.1
+  geolocator: ^6.2.1
+  telephony: ^0.1.4
+  http: ^0.13.3
 
 dev_dependencies:
   flutter_test:
