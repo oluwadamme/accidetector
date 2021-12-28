@@ -18,6 +18,7 @@ dependencies:
   geolocator: ^6.2.1
   telephony: ^0.1.4
   http: ^0.13.3
+  convert: ^3.0.1
 
 dev_dependencies:
   flutter_test:
