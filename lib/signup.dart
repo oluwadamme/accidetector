@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
-import 'display_page.dart';
-// ignore: import_of_legacy_library_into_null_safe
+import 'landing_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupPage extends StatefulWidget {

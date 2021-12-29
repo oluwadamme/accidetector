@@ -19,6 +19,7 @@ dependencies:
   telephony: ^0.1.4
   http: ^0.13.3
   convert: ^3.0.1
+  google_maps_flutter: ^2.0.9
 
 dev_dependencies:
   flutter_test:

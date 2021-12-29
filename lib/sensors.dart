@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'sensor_info_holder.dart';
-import 'test_codes.dart';
 
 class SensorMainHome extends StatefulWidget {
   const SensorMainHome({Key key}) : super(key: key);

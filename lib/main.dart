@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'signup.dart';
-import 'display_page.dart';
+import 'landing_page.dart';
 
 void main() {
   runApp(const FirstPage());
-} 
+}
 
 class FirstPage extends StatelessWidget {
   const FirstPage({Key key}) : super(key: key);
