@@ -34,11 +34,11 @@ class _DisplayPageState extends State<DisplayPage> {
 
   final Completer<GoogleMapController> _controller = Completer();
 
-  final CameraPosition _kUserLocation = CameraPosition(
-      bearing: 0.0,
-      target: LatLng(position.longitude, position.latitude),
-      tilt: 60.0,
-      zoom: 10.0);
+  // final CameraPosition _kUserLocation = CameraPosition(
+  //     bearing: 0.0,
+  //     target: LatLng(position.longitude, position.latitude),
+  //     tilt: 60.0,
+  //     zoom: 10.0);
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -138,17 +138,34 @@ class _DisplayPageState extends State<DisplayPage> {
                 ],
               ),
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 2 / 3,
-              child: GoogleMap(
-                mapType: MapType.hybrid,
-                initialCameraPosition: _kUserLocation,
-                onMapCreated: (GoogleMapController controller) {
-                  _controller.complete(controller);
-                },
-              ),
-            ),
+            FutureBuilder<Position>(
+                future: _determinePosition(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    Position position = snapshot.data;
+                    print(position);
+                    return Expanded(
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 2 / 3,
+                        child: GoogleMap(
+                          mapType: MapType.normal,
+                          initialCameraPosition: CameraPosition(
+                              bearing: 0.0,
+                              target:
+                                  LatLng(position.longitude, position.latitude),
+                              tilt: 60.0,
+                              zoom: 10.0),
+                          onMapCreated: (GoogleMapController controller) {
+                            _controller.complete(controller);
+                          },
+                        ),
+                      ),
+                    );
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
+                }),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
@@ -243,7 +260,13 @@ class _DisplayPageState extends State<DisplayPage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (builder) => InfoPage()));
+                                        builder: (builder) => InfoPage(
+                                            userEmail: widget.userEmail,
+                                            userName: widget.userName,
+                                            userNum: widget.userNum,
+                                            kinEmail: widget.kinEmail,
+                                            kinName: widget.kinName,
+                                            kinNum: widget.kinNum)));
                               },
                               child: const Text(
                                 'My information',
