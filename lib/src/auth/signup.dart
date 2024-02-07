@@ -32,265 +32,256 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
         backgroundColor: Colors.cyan[800],
-        title: const Center(
-          child: Text(
-            'ACCIDENT DETECTOR',
-            style: TextStyle(fontSize: 25, color: Colors.white),
-          ),
+        title: const Text(
+          'ACCIDENT DETECTOR',
+          style: TextStyle(fontSize: 25, color: Colors.white),
         ),
       ),
       body: SafeArea(
           child: SingleChildScrollView(
+        padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
-              child: const Text(
-                "Create an Account ",
-                style: TextStyle(
-                  fontFamily: 'SourceSanPro',
-                  fontSize: 25,
-                  color: Colors.cyan,
-                ),
+            const Text(
+              "Create an Account ",
+              style: TextStyle(
+                fontFamily: 'SourceSanPro',
+                fontSize: 25,
+                color: Colors.cyan,
               ),
             ),
-            Container(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  TextFormField(
-                    controller: signUpName,
-                    style: const TextStyle(
-                      color: Colors.black,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                TextFormField(
+                  controller: signUpName,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'SourceSansPro',
+                  ),
+                  obscureText: false,
+                  decoration: const InputDecoration(
+                    labelText: 'Name',
+                    labelStyle: TextStyle(
                       fontFamily: 'SourceSansPro',
-                    ),
-                    obscureText: false,
-                    decoration: const InputDecoration(
-                      labelText: 'Name',
-                      labelStyle: TextStyle(
-                        fontFamily: 'SourceSansPro',
-                        fontSize: 20,
-                        color: Colors.black,
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.cyan),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.cyan),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    controller: signUpEmail,
-                    style: const TextStyle(
+                      fontSize: 20,
                       color: Colors.black,
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.cyan),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.cyan),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: signUpEmail,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'SourceSansPro',
+                  ),
+                  obscureText: false,
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                    labelStyle: TextStyle(
                       fontFamily: 'SourceSansPro',
-                    ),
-                    obscureText: false,
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      labelStyle: TextStyle(
-                        fontFamily: 'SourceSansPro',
-                        fontSize: 20,
-                        color: Colors.black,
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.cyan),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.cyan),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    controller: signUpNum,
-                    style: const TextStyle(
+                      fontSize: 20,
                       color: Colors.black,
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.cyan),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.cyan),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: signUpNum,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'SourceSansPro',
+                  ),
+                  obscureText: false,
+                  decoration: const InputDecoration(
+                    labelText: 'Phone no.',
+                    labelStyle: TextStyle(
                       fontFamily: 'SourceSansPro',
-                    ),
-                    obscureText: false,
-                    decoration: const InputDecoration(
-                      labelText: 'Phone no.',
-                      labelStyle: TextStyle(
-                        fontFamily: 'SourceSansPro',
-                        fontSize: 20,
-                        color: Colors.black,
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.cyan),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.cyan),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    controller: signUpKinName,
-                    style: const TextStyle(
+                      fontSize: 20,
                       color: Colors.black,
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.cyan),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.cyan),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: signUpKinName,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'SourceSansPro',
+                  ),
+                  obscureText: false,
+                  decoration: const InputDecoration(
+                    labelText: "Kin's name",
+                    labelStyle: TextStyle(
                       fontFamily: 'SourceSansPro',
-                    ),
-                    obscureText: false,
-                    decoration: const InputDecoration(
-                      labelText: "Kin's name",
-                      labelStyle: TextStyle(
-                        fontFamily: 'SourceSansPro',
-                        fontSize: 20,
-                        color: Colors.black,
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.cyan),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.cyan),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    controller: signUpKinEmail,
-                    style: const TextStyle(
+                      fontSize: 20,
                       color: Colors.black,
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.cyan),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.cyan),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: signUpKinEmail,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'SourceSansPro',
+                  ),
+                  obscureText: false,
+                  decoration: const InputDecoration(
+                    labelText: "Kin's email",
+                    labelStyle: TextStyle(
                       fontFamily: 'SourceSansPro',
-                    ),
-                    obscureText: false,
-                    decoration: const InputDecoration(
-                      labelText: "Kin's email",
-                      labelStyle: TextStyle(
-                        fontFamily: 'SourceSansPro',
-                        fontSize: 20,
-                        color: Colors.black,
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.cyan),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.cyan),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    controller: signUpKinNum,
-                    style: const TextStyle(
+                      fontSize: 20,
                       color: Colors.black,
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.cyan),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.cyan),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: signUpKinNum,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'SourceSansPro',
+                  ),
+                  obscureText: false,
+                  decoration: const InputDecoration(
+                    labelText: "Kin's phone no.",
+                    labelStyle: TextStyle(
                       fontFamily: 'SourceSansPro',
+                      fontSize: 20,
+                      color: Colors.black,
                     ),
-                    obscureText: false,
-                    decoration: const InputDecoration(
-                      labelText: "Kin's phone no.",
-                      labelStyle: TextStyle(
-                        fontFamily: 'SourceSansPro',
-                        fontSize: 20,
-                        color: Colors.black,
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.cyan),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.cyan),
-                      ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.cyan),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.cyan),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Center(
-                    child: SizedBox(
-                      height: 30,
-                      width: 70,
-                      child: Material(
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
-                        shadowColor: Colors.cyanAccent,
-                        color: Colors.cyan[800],
-                        elevation: 3.0,
-                        child: TextButton(
-                          onPressed: () async {
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                            await prefs.setString('name', signUpName.text.toString());
-                            await prefs.setString('email', signUpEmail.text.toString());
-                            await prefs.setString('num', signUpNum.text.toString());
-                            await prefs.setString('kinName', signUpKinName.text.toString());
-                            await prefs.setString('kinEmail', signUpKinEmail.text.toString());
-                            await prefs.setString('kinNum', signUpKinNum.text.toString());
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (builder) => DisplayPage(
-                                          userName: signUpName.text,
-                                          userEmail: signUpEmail.text,
-                                          userNum: signUpNum.text,
-                                          kinName: signUpKinName.text,
-                                          kinEmail: signUpKinEmail.text,
-                                          kinNum: signUpKinNum.text,
-                                        )));
-                          },
-                          child: const Text(
-                            'Submit',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
+                      ),
+                      shadowColor: Colors.cyanAccent,
+                      backgroundColor: Colors.cyan[800],
+                      elevation: 3.0,
+                    ),
+                    onPressed: () async {
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      await prefs.setString('name', signUpName.text.toString());
+                      await prefs.setString('email', signUpEmail.text.toString());
+                      await prefs.setString('num', signUpNum.text.toString());
+                      await prefs.setString('kinName', signUpKinName.text.toString());
+                      await prefs.setString('kinEmail', signUpKinEmail.text.toString());
+                      await prefs.setString('kinNum', signUpKinNum.text.toString());
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builder) => DisplayPage(
+                            userName: signUpName.text,
+                            userEmail: signUpEmail.text,
+                            userNum: signUpNum.text,
+                            kinName: signUpKinName.text,
+                            kinEmail: signUpKinEmail.text,
+                            kinNum: signUpKinNum.text,
                           ),
                         ),
+                      );
+                    },
+                    child: const Text(
+                      'Submit',
+                      style: TextStyle(
+                        color: Colors.white,
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Text(
-                        "Already have an account",
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text(
+                      "Already have an account",
+                      style: TextStyle(
+                        fontFamily: 'SourceSansPro',
+                        color: Colors.black,
+                        fontSize: 15,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5.0,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const FirstPage()),
+                        );
+                      },
+                      child: const Text(
+                        'login',
                         style: TextStyle(
-                          fontFamily: 'SourceSansPro',
-                          color: Colors.black,
+                          color: Colors.green,
+                          decoration: TextDecoration.underline,
                           fontSize: 15,
                         ),
                       ),
-                      const SizedBox(
-                        width: 5.0,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const FirstPage()),
-                          );
-                        },
-                        child: const Text(
-                          'login',
-                          style: TextStyle(
-                            color: Colors.green,
-                            decoration: TextDecoration.underline,
-                            fontSize: 15,
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
+                    )
+                  ],
+                )
+              ],
             ),
           ],
         ),
