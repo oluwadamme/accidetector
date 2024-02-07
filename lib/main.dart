@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'signup.dart';
-import 'landing_page.dart';
+import 'src/signup.dart';
+import 'src/landing_page.dart';
 
 void main() {
   runApp(const FirstPage());
@@ -16,13 +16,10 @@ class FirstPage extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         '/signup': (BuildContext context) => const SignupPage(),
-        '/display_page': (BuildContext context) => DisplayPage()
+        '/display_page': (BuildContext context) => const DisplayPage()
       },
       title: 'Accident Detector',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: Colors.grey,
-      ),
+      theme: ThemeData(brightness: Brightness.dark, primaryColor: Colors.grey, useMaterial3: true),
       home: const LoginPage(),
     );
   }
