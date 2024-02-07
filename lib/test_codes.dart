@@ -20,7 +20,7 @@ class SaveFile {
 
   Future<Map<String, dynamic>> readFile() async {
     File file = File(await getFilePath('acc'));
-    Map fileContent = (await file.readAsString()) as Map;
+    final fileContent = (await file.readAsString()) as Map<String, dynamic>;
     print('$fileContent');
     return fileContent;
   }

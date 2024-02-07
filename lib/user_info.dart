@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:accidetector/landing_page.dart';
 
 class InfoPage extends StatefulWidget {
-  String userName;
-  String userEmail;
-  String userNum;
-  String kinName;
-  String kinEmail;
-  String kinNum;
-  InfoPage(
-      {Key key,
-      this.userName,
-      this.userEmail,
-      this.userNum,
-      this.kinName,
-      this.kinEmail,
-      this.kinNum})
-      : super(key: key);
+  final String userName;
+  final String userEmail;
+  final String userNum;
+  final String kinName;
+  final String kinEmail;
+  final String kinNum;
+  const InfoPage({
+    super.key,
+    required this.userName,
+    required this.userEmail,
+    required this.userNum,
+    required this.kinName,
+    required this.kinEmail,
+    required this.kinNum,
+  });
   @override
   _InfoPageState createState() => _InfoPageState();
 }
@@ -56,7 +56,7 @@ class _InfoPageState extends State<InfoPage> {
               height: 30,
             ),
             Text(
-              "Name: " + widget.userName.toString(),
+              "Name: ${widget.userName}",
               style: const TextStyle(
                 fontFamily: 'SourceSanPro',
                 fontSize: 15,
@@ -67,7 +67,7 @@ class _InfoPageState extends State<InfoPage> {
               height: 30,
             ),
             Text(
-              "Email: " + widget.userEmail.toString(),
+              "Email: ${widget.userEmail}",
               style: const TextStyle(
                 fontFamily: 'SourceSanPro',
                 fontSize: 15,
@@ -78,7 +78,7 @@ class _InfoPageState extends State<InfoPage> {
               height: 30,
             ),
             Text(
-              "Phone No.: " + widget.userNum.toString(),
+              "Phone No.: ${widget.userNum}",
               style: const TextStyle(
                 fontFamily: 'SourceSanPro',
                 fontSize: 15,
@@ -89,7 +89,7 @@ class _InfoPageState extends State<InfoPage> {
               height: 30,
             ),
             Text(
-              "Next of Kin's Name: " + widget.kinName.toString(),
+              "Next of Kin's Name: ${widget.kinName}",
               style: const TextStyle(
                 fontFamily: 'SourceSanPro',
                 fontSize: 15,
@@ -100,7 +100,7 @@ class _InfoPageState extends State<InfoPage> {
               height: 30,
             ),
             Text(
-              "Next of Kin's Email: " + widget.kinEmail.toString(),
+              "Next of Kin's Email: ${widget.kinEmail}",
               style: const TextStyle(
                 fontFamily: 'SourceSanPro',
                 fontSize: 15,
@@ -111,7 +111,7 @@ class _InfoPageState extends State<InfoPage> {
               height: 30,
             ),
             Text(
-              "Next of Kin's No.: " + widget.kinNum.toString(),
+              "Next of Kin's No.: ${widget.kinNum}",
               style: const TextStyle(
                 fontFamily: 'SourceSanPro',
                 fontSize: 15,
@@ -132,10 +132,7 @@ class _InfoPageState extends State<InfoPage> {
                   elevation: 3.0,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pop(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => DisplayPage()));
+                      Navigator.pop(context, MaterialPageRoute(builder: (builder) => const DisplayPage()));
                     },
                     child: const Text(
                       'Back to Main Page',
