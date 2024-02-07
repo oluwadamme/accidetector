@@ -1,7 +1,7 @@
 import 'package:accidetector/src/auth/login_page.dart';
 import 'package:flutter/material.dart';
 import 'src/auth/signup.dart';
-import 'src/landing_page.dart';
+import 'src/display_page.dart';
 
 void main() {
   runApp(const FirstPage());

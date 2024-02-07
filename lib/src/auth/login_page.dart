@@ -1,4 +1,4 @@
-import 'package:accidetector/src/landing_page.dart';
+import 'package:accidetector/src/display_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
+          Padding(
             padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
             child: Column(
               children: <Widget>[
@@ -76,42 +76,38 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 50,
                 ),
-                SizedBox(
-                  height: 30,
-                  width: 70,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(25),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
                     shadowColor: Colors.cyanAccent,
-                    color: Colors.cyan[800],
+                    backgroundColor: Colors.cyan[800],
                     elevation: 3.0,
-                    child: TextButton(
-                      onPressed: () async {
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
-                        var email = prefs.getString('email');
-                        if (email == loginValue.text) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (builder) => DisplayPage(
-                                userEmail: email,
-                                userName: prefs.getString('name'),
-                                userNum: prefs.getString('num'),
-                                kinName: prefs.getString('kinName'),
-                                kinEmail: prefs.getString('kinEmail'),
-                                kinNum: prefs.getString('kinNum'),
-                              ),
-                            ),
-                          );
-                        } else {}
-                      },
-                      child: const Center(
-                        child: Text(
-                          'Login',
-                          style: TextStyle(
-                            color: Colors.white,
+                  ),
+                  onPressed: () async {
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    var email = prefs.getString('email');
+                    if (email == loginValue.text) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builder) => DisplayPage(
+                            userEmail: email,
+                            userName: prefs.getString('name'),
+                            userNum: prefs.getString('num'),
+                            kinName: prefs.getString('kinName'),
+                            kinEmail: prefs.getString('kinEmail'),
+                            kinNum: prefs.getString('kinNum'),
                           ),
                         ),
-                      ),
+                      );
+                    } else {}
+                  },
+                  child: const Text(
+                    'Login',
+                    style: TextStyle(
+                      color: Colors.white,
                     ),
                   ),
                 ),

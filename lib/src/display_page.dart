@@ -1,9 +1,8 @@
 import 'dart:convert' as convert;
 import 'package:accidetector/src/auth/login_page.dart';
-import 'package:accidetector/src/send_sms.dart';
+import 'package:accidetector/src/utils/send_sms.dart';
 import 'package:accidetector/src/user_info.dart';
 import 'package:flutter/material.dart';
-import '../main.dart';
 import 'sensor/sensors.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
