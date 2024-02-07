@@ -8,7 +8,7 @@ void main() {
 }
 
 class FirstPage extends StatelessWidget {
-  const FirstPage({Key key}) : super(key: key);
+  const FirstPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class FirstPage extends StatelessWidget {
 }
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -77,8 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: false,
                   decoration: const InputDecoration(
                     focusColor: Colors.white,
-                    prefixIcon:
-                        Icon(Icons.person_outline_rounded, color: Colors.grey),
+                    prefixIcon: Icon(Icons.person_outline_rounded, color: Colors.grey),
                     fillColor: Colors.grey,
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.cyan),
@@ -113,8 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                     elevation: 3.0,
                     child: TextButton(
                       onPressed: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
                         var email = prefs.getString('email');
                         if (email == loginValue.text) {
                           Navigator.push(

@@ -4,7 +4,7 @@ import 'landing_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupPage extends StatefulWidget {
-  const SignupPage({Key key}) : super(key: key);
+  const SignupPage({super.key});
 
   @override
   _SignupPageState createState() => _SignupPageState();
@@ -225,20 +225,13 @@ class _SignupPageState extends State<SignupPage> {
                         elevation: 3.0,
                         child: TextButton(
                           onPressed: () async {
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            await prefs.setString(
-                                'name', signUpName.text.toString());
-                            await prefs.setString(
-                                'email', signUpEmail.text.toString());
-                            await prefs.setString(
-                                'num', signUpNum.text.toString());
-                            await prefs.setString(
-                                'kinName', signUpKinName.text.toString());
-                            await prefs.setString(
-                                'kinEmail', signUpKinEmail.text.toString());
-                            await prefs.setString(
-                                'kinNum', signUpKinNum.text.toString());
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            await prefs.setString('name', signUpName.text.toString());
+                            await prefs.setString('email', signUpEmail.text.toString());
+                            await prefs.setString('num', signUpNum.text.toString());
+                            await prefs.setString('kinName', signUpKinName.text.toString());
+                            await prefs.setString('kinEmail', signUpKinEmail.text.toString());
+                            await prefs.setString('kinNum', signUpKinNum.text.toString());
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -282,8 +275,7 @@ class _SignupPageState extends State<SignupPage> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => const FirstPage()),
+                            MaterialPageRoute(builder: (context) => const FirstPage()),
                           );
                         },
                         child: const Text(

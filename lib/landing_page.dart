@@ -10,21 +10,21 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 
 class DisplayPage extends StatefulWidget {
-  String userName;
-  String userEmail;
-  String userNum;
-  String kinName;
-  String kinEmail;
-  String kinNum;
-  DisplayPage(
-      {Key key,
-      this.userName,
-      this.userEmail,
-      this.userNum,
-      this.kinName,
-      this.kinEmail,
-      this.kinNum})
-      : super(key: key);
+  final String? userName;
+  final String? userEmail;
+  final String? userNum;
+  final String? kinName;
+  final String? kinEmail;
+  final String? kinNum;
+  const DisplayPage({
+    super.key,
+    this.userName,
+    this.userEmail,
+    this.userNum,
+    this.kinName,
+    this.kinEmail,
+    this.kinNum,
+  });
   @override
   _DisplayPageState createState() => _DisplayPageState();
 }
@@ -68,8 +68,7 @@ class _DisplayPageState extends State<DisplayPage> {
 
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+      return Future.error('Location permissions are permanently denied, we cannot request permissions.');
     }
 
     // When we reach here, permissions are granted and we can
@@ -101,7 +100,7 @@ class _DisplayPageState extends State<DisplayPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    "Hi " + widget.userName.toString(),
+                    "Hi ${widget.userName}",
                     style: const TextStyle(
                       fontFamily: 'SourceSanPro',
                       fontSize: 18,
@@ -119,10 +118,7 @@ class _DisplayPageState extends State<DisplayPage> {
                       elevation: 3.0,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.pop(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (builder) => const LoginPage()));
+                          Navigator.pop(context, MaterialPageRoute(builder: (builder) => const LoginPage()));
                         },
                         child: const Center(
                           child: Text(
@@ -152,8 +148,7 @@ class _DisplayPageState extends State<DisplayPage> {
                           mapType: MapType.normal,
                           initialCameraPosition: CameraPosition(
                               bearing: 0.0,
-                              target:
-                                  LatLng(position.longitude, position.latitude),
+                              target: LatLng(position.longitude, position.latitude),
                               tilt: 60.0,
                               zoom: 10.0),
                           onMapCreated: (GoogleMapController controller) {
@@ -186,19 +181,14 @@ class _DisplayPageState extends State<DisplayPage> {
                             var location = await http.get(Uri.parse(
                                 "https://api.mapbox.com/geocoding/v5/mapbox.places/${position.longitude},${position.latitude}.json?access_token=pk.eyJ1IjoibXU1dGVlIiwiYSI6ImNreGxyYWVjMjFpd28yeHViaTMxd2NtYWUifQ.MRM4cIK7PhfnnDqyoJnZgg"));
                             if (location.statusCode == 200) {
-                              var jsonResponse =
-                                  convert.jsonDecode(location.body)
-                                      as Map<String, dynamic>;
+                              var jsonResponse = convert.jsonDecode(location.body) as Map<String, dynamic>;
 
-                              String address =
-                                  jsonResponse['features'][0]['place_name'];
+                              String address = jsonResponse['features'][0]['place_name'];
                               String message =
                                   "An accident has occured to ${widget.userName} at $address! \nPlease send emergency assistance.";
-                              String recipents = widget.kinNum;
+                              String recipents = widget.kinNum ?? "";
 
-                              await HelpSMS()
-                                  .send_sms(message, recipents)
-                                  .whenComplete(() => print('done'));
+                              await HelpSMS().send_sms(message, recipents).whenComplete(() => print('done'));
                             } else {
                               print('No location found');
                             }
@@ -230,10 +220,7 @@ class _DisplayPageState extends State<DisplayPage> {
                             child: TextButton(
                               onPressed: () {
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (builder) =>
-                                            const SensorMainHome()));
+                                    context, MaterialPageRoute(builder: (builder) => const SensorMainHome()));
                               },
                               child: const Text(
                                 'Start',
@@ -258,15 +245,18 @@ class _DisplayPageState extends State<DisplayPage> {
                             child: TextButton(
                               onPressed: () {
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (builder) => InfoPage(
-                                            userEmail: widget.userEmail,
-                                            userName: widget.userName,
-                                            userNum: widget.userNum,
-                                            kinEmail: widget.kinEmail,
-                                            kinName: widget.kinName,
-                                            kinNum: widget.kinNum)));
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (builder) => InfoPage(
+                                      userEmail: widget.userEmail ?? "",
+                                      userName: widget.userName ?? "",
+                                      userNum: widget.userNum ?? "",
+                                      kinEmail: widget.kinEmail ?? "",
+                                      kinName: widget.kinName ?? "",
+                                      kinNum: widget.kinNum ?? "",
+                                    ),
+                                  ),
+                                );
                               },
                               child: const Text(
                                 'My information',

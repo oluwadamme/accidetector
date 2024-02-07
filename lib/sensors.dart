@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'sensor_info_holder.dart';
 
 class SensorMainHome extends StatefulWidget {
-  const SensorMainHome({Key key}) : super(key: key);
+  const SensorMainHome({super.key});
 
   @override
   _SensorMainState createState() => _SensorMainState();
@@ -18,10 +18,8 @@ SensorInfoHolder getMeAnInstanceOfSensorInfoHolder(Map<String, String> data) {
 }
 
 class _SensorMainState extends State<SensorMainHome> {
-  static const String _methodChannelName =
-      'com.example.accidetector.androidMethodChannel'; // keep it unique
-  static const String _eventChannelName =
-      'com.example.accidetector.androidEventChannel'; // keep it unique too
+  static const String _methodChannelName = 'com.example.accidetector.androidMethodChannel'; // keep it unique
+  static const String _eventChannelName = 'com.example.accidetector.androidEventChannel'; // keep it unique too
   static MethodChannel _methodChannel = const MethodChannel(_methodChannelName);
   static EventChannel _eventChannel = const EventChannel(_eventChannelName);
   bool _isFirstUIBuildDone = false;
@@ -37,8 +35,7 @@ class _SensorMainState extends State<SensorMainHome> {
   Future<void> getSensorsList() async {
     Map<String, List<dynamic>> sensorCount;
     try {
-      Map<dynamic, dynamic> tmp =
-          await _methodChannel.invokeMethod('getSensorsList');
+      Map<dynamic, dynamic> tmp = await _methodChannel.invokeMethod('getSensorsList');
       sensorCount = Map<String, List<dynamic>>.from(tmp);
       sensorCount.forEach((String key, List<dynamic> value) {
         switch (key) {
@@ -46,23 +43,15 @@ class _SensorMainState extends State<SensorMainHome> {
             if (value.isNotEmpty) {
               for (var element in value) {
                 _listAccelerometer.add(Accelerometer(
-                    getMeAnInstanceOfSensorInfoHolder(
-                        Map<String, String>.from(element)),
-                    'NA',
-                    'NA',
-                    'NA'));
+                    getMeAnInstanceOfSensorInfoHolder(Map<String, String>.from(element)), 'NA', 'NA', 'NA'));
               }
             }
             break;
           case '9':
             if (value.isNotEmpty) {
               for (var element in value) {
-                _listGravity.add(Gravity(
-                    getMeAnInstanceOfSensorInfoHolder(
-                        Map<String, String>.from(element)),
-                    'NA',
-                    'NA',
-                    'NA'));
+                _listGravity.add(
+                    Gravity(getMeAnInstanceOfSensorInfoHolder(Map<String, String>.from(element)), 'NA', 'NA', 'NA'));
               }
             }
             break;
@@ -70,11 +59,7 @@ class _SensorMainState extends State<SensorMainHome> {
             if (value.isNotEmpty) {
               for (var element in value) {
                 _listMagneticField.add(MagneticField(
-                    getMeAnInstanceOfSensorInfoHolder(
-                        Map<String, String>.from(element)),
-                    'NA',
-                    'NA',
-                    'NA'));
+                    getMeAnInstanceOfSensorInfoHolder(Map<String, String>.from(element)), 'NA', 'NA', 'NA'));
               }
             }
             break;
@@ -82,53 +67,39 @@ class _SensorMainState extends State<SensorMainHome> {
             if (value.isNotEmpty) {
               for (var element in value) {
                 _listOrientationSensor.add(OrientationSensor(
-                    getMeAnInstanceOfSensorInfoHolder(
-                        Map<String, String>.from(element)),
-                    'NA',
-                    'NA',
-                    'NA'));
+                    getMeAnInstanceOfSensorInfoHolder(Map<String, String>.from(element)), 'NA', 'NA', 'NA'));
               }
             }
             break;
           case '4':
             if (value.isNotEmpty) {
               for (var element in value) {
-                _listGyroscope.add(Gyroscope(
-                    getMeAnInstanceOfSensorInfoHolder(
-                        Map<String, String>.from(element)),
-                    'NA',
-                    'NA',
-                    'NA'));
+                _listGyroscope.add(
+                    Gyroscope(getMeAnInstanceOfSensorInfoHolder(Map<String, String>.from(element)), 'NA', 'NA', 'NA'));
               }
             }
             break;
           case '5':
             if (value.isNotEmpty) {
               for (var element in value) {
-                _listAmbientLight.add(AmbientLight(
-                    getMeAnInstanceOfSensorInfoHolder(
-                        Map<String, String>.from(element)),
-                    'NA'));
+                _listAmbientLight
+                    .add(AmbientLight(getMeAnInstanceOfSensorInfoHolder(Map<String, String>.from(element)), 'NA'));
               }
             }
             break;
           case '12':
             if (value.isNotEmpty) {
               for (var element in value) {
-                _listRelativeHumidity.add(RelativeHumidity(
-                    getMeAnInstanceOfSensorInfoHolder(
-                        Map<String, String>.from(element)),
-                    'NA'));
+                _listRelativeHumidity
+                    .add(RelativeHumidity(getMeAnInstanceOfSensorInfoHolder(Map<String, String>.from(element)), 'NA'));
               }
             }
             break;
           case '13':
             if (value.isNotEmpty) {
               for (var element in value) {
-                _listAmbientRoomTemperature.add(AmbientRoomTemperature(
-                    getMeAnInstanceOfSensorInfoHolder(
-                        Map<String, String>.from(element)),
-                    'NA'));
+                _listAmbientRoomTemperature.add(
+                    AmbientRoomTemperature(getMeAnInstanceOfSensorInfoHolder(Map<String, String>.from(element)), 'NA'));
               }
             }
             break;
@@ -162,8 +133,7 @@ class _SensorMainState extends State<SensorMainHome> {
 
   bool isAMatch(SensorInfoHolder data, Map<String, String> receivedData) {
     // Finds whether it is an instance of target class so that we can use it to update UI.
-    return (data.name == receivedData['name'] &&
-        data.vendorName == receivedData['vendorName']);
+    return (data.name == receivedData['name'] && data.vendorName == receivedData['vendorName']);
   }
 
   void _onData(dynamic event) {
@@ -175,7 +145,7 @@ class _SensorMainState extends State<SensorMainHome> {
       case '1':
         for (var item in _listAccelerometer) {
           if (isAMatch(item.sensor, receivedData)) {
-            List<String> sensorFeed = receivedData['values'].split(';');
+            List<String> sensorFeed = receivedData['values']!.split(';');
 
             setState(() {
               item.x = sensorFeed[0];
@@ -188,7 +158,7 @@ class _SensorMainState extends State<SensorMainHome> {
       case '9':
         for (var item in _listGravity) {
           if (isAMatch(item.sensor, receivedData)) {
-            List<String> sensorFeed = receivedData['values'].split(';');
+            List<String> sensorFeed = receivedData['values']!.split(';');
             setState(() {
               item.x = sensorFeed[0];
               item.y = sensorFeed[1];
@@ -200,7 +170,7 @@ class _SensorMainState extends State<SensorMainHome> {
       case '2':
         for (var item in _listMagneticField) {
           if (isAMatch(item.sensor, receivedData)) {
-            List<String> sensorFeed = receivedData['values'].split(';');
+            List<String> sensorFeed = receivedData['values']!.split(';');
             setState(() {
               item.x = sensorFeed[0];
               item.y = sensorFeed[1];
@@ -212,7 +182,7 @@ class _SensorMainState extends State<SensorMainHome> {
       case '3':
         for (var item in _listOrientationSensor) {
           if (isAMatch(item.sensor, receivedData)) {
-            List<String> sensorFeed = receivedData['values'].split(';');
+            List<String> sensorFeed = receivedData['values']!.split(';');
             setState(() {
               item.azimuth = sensorFeed[0];
               item.pitch = sensorFeed[1];
@@ -224,7 +194,7 @@ class _SensorMainState extends State<SensorMainHome> {
       case '4':
         for (var item in _listGyroscope) {
           if (isAMatch(item.sensor, receivedData)) {
-            List<String> sensorFeed = receivedData['values'].split(';');
+            List<String> sensorFeed = receivedData['values']!.split(';');
             setState(() {
               item.angularSpeedAroundX = sensorFeed[0];
               item.angularSpeedAroundY = sensorFeed[1];
@@ -236,7 +206,7 @@ class _SensorMainState extends State<SensorMainHome> {
       case '5':
         for (var item in _listAmbientLight) {
           if (isAMatch(item.sensor, receivedData)) {
-            List<String> sensorFeed = receivedData['values'].split(';');
+            List<String> sensorFeed = receivedData['values']!.split(';');
             setState(() {
               item.level = sensorFeed[0];
             });
@@ -246,7 +216,7 @@ class _SensorMainState extends State<SensorMainHome> {
       case '12':
         for (var item in _listRelativeHumidity) {
           if (isAMatch(item.sensor, receivedData)) {
-            List<String> sensorFeed = receivedData['values'].split(';');
+            List<String> sensorFeed = receivedData['values']!.split(';');
             setState(() {
               item.humidity = sensorFeed[0];
             });
@@ -256,7 +226,7 @@ class _SensorMainState extends State<SensorMainHome> {
       case '13':
         for (var item in _listAmbientRoomTemperature) {
           if (isAMatch(item.sensor, receivedData)) {
-            List<String> sensorFeed = receivedData['values'].split(';');
+            List<String> sensorFeed = receivedData['values']!.split(';');
             setState(() {
               item.temperature = sensorFeed[0];
             });
@@ -302,8 +272,7 @@ class _SensorMainState extends State<SensorMainHome> {
         ),
         backgroundColor: Colors.cyan[800],
       ),
-      body: ListView(
-          padding: const EdgeInsets.all(6.0), children: buildUI(context)),
+      body: ListView(padding: const EdgeInsets.all(6.0), children: buildUI(context)),
     );
   }
 }

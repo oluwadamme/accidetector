@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class SensorInfoHolder {
   SensorInfoHolder({
-    Key key,
-    @required this.name,
-    @required this.type,
-    @required this.vendorName,
+    Key? key,
+    required this.name,
+    required this.type,
+    required this.vendorName,
   }) {
     type = '${_getTypeToName(type)} ($type)';
   }
@@ -13,7 +13,7 @@ class SensorInfoHolder {
   String type;
   String vendorName;
 
-  String _getTypeToName(String type) {
+  String? _getTypeToName(String type) {
     return <String, String>{
       '1': 'Accelerometer',
       '9': 'Gravity',
@@ -31,12 +31,8 @@ class SensorInfoHolder {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(name,
-              style: const TextStyle(
-                  color: Colors.cyanAccent, fontWeight: FontWeight.bold)),
-          Text(vendorName,
-              style: const TextStyle(
-                  color: Colors.cyanAccent, fontWeight: FontWeight.bold))
+          Text(name, style: const TextStyle(color: Colors.cyanAccent, fontWeight: FontWeight.bold)),
+          Text(vendorName, style: const TextStyle(color: Colors.cyanAccent, fontWeight: FontWeight.bold))
         ],
       ),
       const Divider(
@@ -77,38 +73,9 @@ class Accelerometer {
     return Card(
       // Accelerometer
       color: Colors.grey[300],
-      margin:
-          const EdgeInsets.only(top: 6.0, bottom: 6.0, left: 4.0, right: 4.0),
+      margin: const EdgeInsets.only(top: 6.0, bottom: 6.0, left: 4.0, right: 4.0),
       elevation: 8.0,
       child: Container(
-        child: Column(
-          children: sensor.appendThem([
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text('Along X-axis',
-                    style: TextStyle(color: Colors.black)),
-                Text('$x m/s^2', style: const TextStyle(color: Colors.black)),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text('Along Y-axis',
-                    style: TextStyle(color: Colors.black)),
-                Text('$y m/s^2', style: const TextStyle(color: Colors.black)),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text('Along Z-axis',
-                    style: TextStyle(color: Colors.black)),
-                Text('$z m/s^2', style: const TextStyle(color: Colors.black)),
-              ],
-            )
-          ]),
-        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4.0),
           border: Border.all(
@@ -117,8 +84,32 @@ class Accelerometer {
             style: BorderStyle.solid,
           ),
         ),
-        padding: const EdgeInsets.only(
-            left: 10.0, right: 10.0, top: 12.0, bottom: 12.0),
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 12.0, bottom: 12.0),
+        child: Column(
+          children: sensor.appendThem([
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('Along X-axis', style: TextStyle(color: Colors.black)),
+                Text('$x m/s^2', style: const TextStyle(color: Colors.black)),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('Along Y-axis', style: TextStyle(color: Colors.black)),
+                Text('$y m/s^2', style: const TextStyle(color: Colors.black)),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('Along Z-axis', style: TextStyle(color: Colors.black)),
+                Text('$z m/s^2', style: const TextStyle(color: Colors.black)),
+              ],
+            )
+          ]),
+        ),
       ),
     );
   }
@@ -135,38 +126,9 @@ class Gravity {
     return Card(
       // Gravity
       color: Colors.grey[300],
-      margin:
-          const EdgeInsets.only(top: 6.0, bottom: 6.0, left: 4.0, right: 4.0),
+      margin: const EdgeInsets.only(top: 6.0, bottom: 6.0, left: 4.0, right: 4.0),
       elevation: 8.0,
       child: Container(
-        child: Column(
-          children: sensor.appendThem([
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text('Along X-axis',
-                    style: TextStyle(color: Colors.black)),
-                Text('$x m/s^2', style: const TextStyle(color: Colors.black)),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text('Along Y-axis',
-                    style: TextStyle(color: Colors.black)),
-                Text('$y m/s^2', style: const TextStyle(color: Colors.black)),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text('Along Z-axis',
-                    style: TextStyle(color: Colors.black)),
-                Text('$z m/s^2', style: const TextStyle(color: Colors.black)),
-              ],
-            ),
-          ]),
-        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4.0),
           border: Border.all(
@@ -175,8 +137,32 @@ class Gravity {
             style: BorderStyle.solid,
           ),
         ),
-        padding: const EdgeInsets.only(
-            left: 10.0, right: 10.0, top: 12.0, bottom: 12.0),
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 12.0, bottom: 12.0),
+        child: Column(
+          children: sensor.appendThem([
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('Along X-axis', style: TextStyle(color: Colors.black)),
+                Text('$x m/s^2', style: const TextStyle(color: Colors.black)),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('Along Y-axis', style: TextStyle(color: Colors.black)),
+                Text('$y m/s^2', style: const TextStyle(color: Colors.black)),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('Along Z-axis', style: TextStyle(color: Colors.black)),
+                Text('$z m/s^2', style: const TextStyle(color: Colors.black)),
+              ],
+            ),
+          ]),
+        ),
       ),
     );
   }
@@ -193,38 +179,9 @@ class MagneticField {
     return Card(
       // Magnetic Field
       color: Colors.grey[300],
-      margin:
-          const EdgeInsets.only(top: 6.0, bottom: 6.0, left: 4.0, right: 4.0),
+      margin: const EdgeInsets.only(top: 6.0, bottom: 6.0, left: 4.0, right: 4.0),
       elevation: 8.0,
       child: Container(
-        child: Column(
-          children: sensor.appendThem([
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text('Along X-axis',
-                    style: TextStyle(color: Colors.black)),
-                Text('$x uT', style: const TextStyle(color: Colors.black)),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text('Along Y-axis',
-                    style: TextStyle(color: Colors.black)),
-                Text('$y uT', style: const TextStyle(color: Colors.black)),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text('Along Z-axis',
-                    style: TextStyle(color: Colors.black)),
-                Text('$z uT', style: const TextStyle(color: Colors.black)),
-              ],
-            ),
-          ]),
-        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4.0),
           border: Border.all(
@@ -233,8 +190,32 @@ class MagneticField {
             style: BorderStyle.solid,
           ),
         ),
-        padding: const EdgeInsets.only(
-            left: 10.0, right: 10.0, top: 12.0, bottom: 12.0),
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 12.0, bottom: 12.0),
+        child: Column(
+          children: sensor.appendThem([
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('Along X-axis', style: TextStyle(color: Colors.black)),
+                Text('$x uT', style: const TextStyle(color: Colors.black)),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('Along Y-axis', style: TextStyle(color: Colors.black)),
+                Text('$y uT', style: const TextStyle(color: Colors.black)),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('Along Z-axis', style: TextStyle(color: Colors.black)),
+                Text('$z uT', style: const TextStyle(color: Colors.black)),
+              ],
+            ),
+          ]),
+        ),
       ),
     );
   }
@@ -251,10 +232,18 @@ class OrientationSensor {
     return Card(
       // Orientation Sensor
       color: Colors.grey[300],
-      margin:
-          const EdgeInsets.only(top: 6.0, bottom: 6.0, left: 4.0, right: 4.0),
+      margin: const EdgeInsets.only(top: 6.0, bottom: 6.0, left: 4.0, right: 4.0),
       elevation: 8.0,
       child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4.0),
+          border: Border.all(
+            color: Colors.cyan,
+            width: 0.7,
+            style: BorderStyle.solid,
+          ),
+        ),
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 12.0, bottom: 12.0),
         child: Column(
           children: sensor.appendThem([
             Row(
@@ -280,16 +269,6 @@ class OrientationSensor {
             ),
           ]),
         ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4.0),
-          border: Border.all(
-            color: Colors.cyan,
-            width: 0.7,
-            style: BorderStyle.solid,
-          ),
-        ),
-        padding: const EdgeInsets.only(
-            left: 10.0, right: 10.0, top: 12.0, bottom: 12.0),
       ),
     );
   }
@@ -297,8 +276,7 @@ class OrientationSensor {
 
 class Gyroscope {
   // type 4
-  Gyroscope(this.sensor, this.angularSpeedAroundX, this.angularSpeedAroundY,
-      this.angularSpeedAroundZ);
+  Gyroscope(this.sensor, this.angularSpeedAroundX, this.angularSpeedAroundY, this.angularSpeedAroundZ);
   SensorInfoHolder sensor;
   String angularSpeedAroundX;
   String angularSpeedAroundY;
@@ -307,41 +285,9 @@ class Gyroscope {
     return Card(
       // Gyroscope
       color: Colors.grey[300],
-      margin:
-          const EdgeInsets.only(top: 6.0, bottom: 6.0, left: 4.0, right: 4.0),
+      margin: const EdgeInsets.only(top: 6.0, bottom: 6.0, left: 4.0, right: 4.0),
       elevation: 8.0,
       child: Container(
-        child: Column(
-          children: sensor.appendThem([
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text('Angular Speed around X',
-                    style: TextStyle(color: Colors.black)),
-                Text('$angularSpeedAroundX rad/s',
-                    style: const TextStyle(color: Colors.black)),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text('Angular Speed around Y',
-                    style: TextStyle(color: Colors.black)),
-                Text('$angularSpeedAroundY rad/s',
-                    style: const TextStyle(color: Colors.black)),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text('Angular Speed around Z',
-                    style: TextStyle(color: Colors.black)),
-                Text('$angularSpeedAroundZ rad/s',
-                    style: const TextStyle(color: Colors.black)),
-              ],
-            ),
-          ]),
-        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4.0),
           border: Border.all(
@@ -350,8 +296,32 @@ class Gyroscope {
             style: BorderStyle.solid,
           ),
         ),
-        padding: const EdgeInsets.only(
-            left: 10.0, right: 10.0, top: 12.0, bottom: 12.0),
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 12.0, bottom: 12.0),
+        child: Column(
+          children: sensor.appendThem([
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('Angular Speed around X', style: TextStyle(color: Colors.black)),
+                Text('$angularSpeedAroundX rad/s', style: const TextStyle(color: Colors.black)),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('Angular Speed around Y', style: TextStyle(color: Colors.black)),
+                Text('$angularSpeedAroundY rad/s', style: const TextStyle(color: Colors.black)),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('Angular Speed around Z', style: TextStyle(color: Colors.black)),
+                Text('$angularSpeedAroundZ rad/s', style: const TextStyle(color: Colors.black)),
+              ],
+            ),
+          ]),
+        ),
       ),
     );
   }
@@ -366,22 +336,9 @@ class AmbientLight {
     return Card(
       // Ambient Light Sensor
       color: Colors.grey[300],
-      margin:
-          const EdgeInsets.only(top: 6.0, bottom: 6.0, left: 4.0, right: 4.0),
+      margin: const EdgeInsets.only(top: 6.0, bottom: 6.0, left: 4.0, right: 4.0),
       elevation: 8.0,
       child: Container(
-        child: Column(
-          children: sensor.appendThem([
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text('Ambient Light Level',
-                    style: TextStyle(color: Colors.black)),
-                Text('$level lux', style: const TextStyle(color: Colors.black)),
-              ],
-            ),
-          ]),
-        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4.0),
           border: Border.all(
@@ -390,8 +347,18 @@ class AmbientLight {
             style: BorderStyle.solid,
           ),
         ),
-        padding: const EdgeInsets.only(
-            left: 10.0, right: 10.0, top: 12.0, bottom: 12.0),
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 12.0, bottom: 12.0),
+        child: Column(
+          children: sensor.appendThem([
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('Ambient Light Level', style: TextStyle(color: Colors.black)),
+                Text('$level lux', style: const TextStyle(color: Colors.black)),
+              ],
+            ),
+          ]),
+        ),
       ),
     );
   }
@@ -406,23 +373,9 @@ class RelativeHumidity {
     return Card(
       // Relative Humidity
       color: Colors.grey[300],
-      margin:
-          const EdgeInsets.only(top: 6.0, bottom: 6.0, left: 4.0, right: 4.0),
+      margin: const EdgeInsets.only(top: 6.0, bottom: 6.0, left: 4.0, right: 4.0),
       elevation: 8.0,
       child: Container(
-        child: Column(
-          children: sensor.appendThem([
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text('Relative Air Humidity',
-                    style: TextStyle(color: Colors.black)),
-                Text('$humidity %',
-                    style: const TextStyle(color: Colors.black)),
-              ],
-            ),
-          ]),
-        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4.0),
           border: Border.all(
@@ -431,8 +384,18 @@ class RelativeHumidity {
             style: BorderStyle.solid,
           ),
         ),
-        padding: const EdgeInsets.only(
-            left: 10.0, right: 10.0, top: 12.0, bottom: 12.0),
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 12.0, bottom: 12.0),
+        child: Column(
+          children: sensor.appendThem([
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('Relative Air Humidity', style: TextStyle(color: Colors.black)),
+                Text('$humidity %', style: const TextStyle(color: Colors.black)),
+              ],
+            ),
+          ]),
+        ),
       ),
     );
   }
@@ -447,23 +410,9 @@ class AmbientRoomTemperature {
     return Card(
       // Gravity
       color: Colors.grey[300],
-      margin:
-          const EdgeInsets.only(top: 6.0, bottom: 6.0, left: 4.0, right: 4.0),
+      margin: const EdgeInsets.only(top: 6.0, bottom: 6.0, left: 4.0, right: 4.0),
       elevation: 8.0,
       child: Container(
-        child: Column(
-          children: sensor.appendThem([
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text('Temperature',
-                    style: TextStyle(color: Colors.black)),
-                Text('$temperature C',
-                    style: const TextStyle(color: Colors.black)),
-              ],
-            ),
-          ]),
-        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4.0),
           border: Border.all(
@@ -472,8 +421,18 @@ class AmbientRoomTemperature {
             style: BorderStyle.solid,
           ),
         ),
-        padding: const EdgeInsets.only(
-            left: 10.0, right: 10.0, top: 12.0, bottom: 12.0),
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 12.0, bottom: 12.0),
+        child: Column(
+          children: sensor.appendThem([
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('Temperature', style: TextStyle(color: Colors.black)),
+                Text('$temperature C', style: const TextStyle(color: Colors.black)),
+              ],
+            ),
+          ]),
+        ),
       ),
     );
   }
