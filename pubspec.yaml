@@ -6,18 +6,18 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.19.6 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  shared_preferences: ^0.5.12+4
-  path_provider: ^1.6.28
+  shared_preferences: ^2.2.2
+  path_provider: ^2.1.2
   flutter_sms: ^2.1.1
-  geolocator: ^6.2.1
-  telephony: ^0.1.4
-  http: ^0.13.3
+  geolocator: ^10.1.0
+  telephony: ^0.2.0
+  http: ^1.2.0
   convert: ^3.0.1
   google_maps_flutter: ^2.0.9
 
@@ -25,7 +25,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^1.0.0
+  flutter_lints: ^3.0.1
 
 flutter:
 

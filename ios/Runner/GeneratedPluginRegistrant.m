@@ -12,16 +12,10 @@
 @import flutter_sms;
 #endif
 
-#if __has_include(<flutter_user_agent/FlutterUserAgentPlugin.h>)
-#import <flutter_user_agent/FlutterUserAgentPlugin.h>
+#if __has_include(<geolocator_apple/GeolocatorPlugin.h>)
+#import <geolocator_apple/GeolocatorPlugin.h>
 #else
-@import flutter_user_agent;
-#endif
-
-#if __has_include(<geolocator/GeolocatorPlugin.h>)
-#import <geolocator/GeolocatorPlugin.h>
-#else
-@import geolocator;
+@import geolocator_apple;
 #endif
 
 #if __has_include(<google_maps_flutter/FLTGoogleMapsPlugin.h>)
@@ -30,16 +24,16 @@
 @import google_maps_flutter;
 #endif
 
-#if __has_include(<path_provider/FLTPathProviderPlugin.h>)
-#import <path_provider/FLTPathProviderPlugin.h>
+#if __has_include(<path_provider_foundation/PathProviderPlugin.h>)
+#import <path_provider_foundation/PathProviderPlugin.h>
 #else
-@import path_provider;
+@import path_provider_foundation;
 #endif
 
-#if __has_include(<shared_preferences/FLTSharedPreferencesPlugin.h>)
-#import <shared_preferences/FLTSharedPreferencesPlugin.h>
+#if __has_include(<shared_preferences_foundation/SharedPreferencesPlugin.h>)
+#import <shared_preferences_foundation/SharedPreferencesPlugin.h>
 #else
-@import shared_preferences;
+@import shared_preferences_foundation;
 #endif
 
 #if __has_include(<telephony/TelephonyPlugin.h>)
@@ -48,23 +42,22 @@
 @import telephony;
 #endif
 
-#if __has_include(<url_launcher/FLTURLLauncherPlugin.h>)
-#import <url_launcher/FLTURLLauncherPlugin.h>
+#if __has_include(<url_launcher_ios/URLLauncherPlugin.h>)
+#import <url_launcher_ios/URLLauncherPlugin.h>
 #else
-@import url_launcher;
+@import url_launcher_ios;
 #endif
 
 @implementation GeneratedPluginRegistrant
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [FlutterSmsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterSmsPlugin"]];
-  [FlutterUserAgentPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterUserAgentPlugin"]];
   [GeolocatorPlugin registerWithRegistrar:[registry registrarForPlugin:@"GeolocatorPlugin"]];
   [FLTGoogleMapsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTGoogleMapsPlugin"]];
-  [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
-  [FLTSharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharedPreferencesPlugin"]];
+  [PathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"PathProviderPlugin"]];
+  [SharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"SharedPreferencesPlugin"]];
   [TelephonyPlugin registerWithRegistrar:[registry registrarForPlugin:@"TelephonyPlugin"]];
-  [FLTURLLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTURLLauncherPlugin"]];
+  [URLLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"URLLauncherPlugin"]];
 }
 
 @end
