@@ -20,7 +20,11 @@ class FirstPage extends StatelessWidget {
         '/display_page': (BuildContext context) => const DisplayPage()
       },
       title: 'Accident Detector',
-      theme: ThemeData(brightness: Brightness.dark, primaryColor: Colors.grey, useMaterial3: true),
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.grey,
+        useMaterial3: true,
+      ),
       home: const LoginPage(),
     );
   }
