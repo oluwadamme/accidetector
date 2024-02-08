@@ -1,5 +1,6 @@
 import 'package:accidetector/src/auth/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'src/auth/signup.dart';
 import 'src/display_page.dart';
 
@@ -20,11 +21,7 @@ class FirstPage extends StatelessWidget {
         '/display_page': (BuildContext context) => const DisplayPage()
       },
       title: 'Accident Detector',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: Colors.grey,
-        useMaterial3: true,
-      ),
+      theme: ThemeData.light(useMaterial3: true),
       home: const LoginPage(),
     );
   }

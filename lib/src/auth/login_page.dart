@@ -111,21 +111,36 @@ class _LoginPageState extends State<LoginPage> {
                       elevation: 3.0,
                     ),
                     onPressed: () async {
+                      FocusScope.of(context).unfocus();
                       if (formKey.currentState!.validate()) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (builder) => DisplayPage(
-                              userEmail: loginValue.text.trim(),
-                              userName: prefs.getString('name'),
-                              userNum: prefs.getString('num'),
-                              kinName: prefs.getString('kinName'),
-                              kinEmail: prefs.getString('kinEmail'),
-                              kinNum: prefs.getString('kinNum'),
+                        if (loginValue.text.trim() == prefs.getString('email')) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builder) => DisplayPage(
+                                userEmail: loginValue.text.trim(),
+                                userName: prefs.getString('name'),
+                                userNum: prefs.getString('num'),
+                                kinName: prefs.getString('kinName'),
+                                kinEmail: prefs.getString('kinEmail'),
+                                kinNum: prefs.getString('kinNum'),
+                              ),
                             ),
-                          ),
-                        );
-                      } else {}
+                          );
+                        } else {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => AlertDialog.adaptive(
+                              title: const Text("Notice!!!"),
+                              content: const Text("No account found!!!"),
+                              actions: [
+                                TextButton(onPressed: () => Navigator.pop(context), child: const Text("Close"))
+                              ],
+                            ),
+                          );
+                        }
+                      }
                     },
                     child: const Text(
                       'Login',
