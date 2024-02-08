@@ -165,6 +165,7 @@ class _DisplayPageState extends State<DisplayPage> {
                         onTap: (argument) {
                           log(argument.toString());
                         },
+                        indoorViewEnabled: true,
                         myLocationButtonEnabled: true,
                         myLocationEnabled: true,
                         onMapCreated: (GoogleMapController controller) async {
