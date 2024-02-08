@@ -1,8 +1,11 @@
 import 'dart:convert' as convert;
+import 'dart:developer';
 import 'package:accidetector/src/auth/login_page.dart';
 import 'package:accidetector/src/utils/send_sms.dart';
 import 'package:accidetector/src/user_info.dart';
 import 'package:flutter/material.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 import 'sensor/sensors.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
@@ -30,14 +33,17 @@ class DisplayPage extends StatefulWidget {
 }
 
 class _DisplayPageState extends State<DisplayPage> {
-  final Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController? mapController;
   late Future<Position> position;
   @override
   void initState() {
     super.initState();
-    position = _determinePosition();
+    setState(() {
+      position = _determinePosition();
+    });
   }
 
+  bool loading = false;
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -68,10 +74,34 @@ class _DisplayPageState extends State<DisplayPage> {
       // Permissions are denied forever, handle appropriately.
       return Future.error('Location permissions are permanently denied, we cannot request permissions.');
     }
-
+    final position =
+        await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best, forceAndroidLocationManager: true);
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
+    if (mapController != null) {
+      await mapController!
+          .animateCamera(CameraUpdate.newLatLngZoom(LatLng(position.latitude, position.longitude), 19.4));
+    }
+
+    return position;
+  }
+
+  Future<void> sendEmail(String body, String location) async {
+    final smtpServer = SmtpServer('smtp.gmail.com', username: 'adeniyidamilola38@gmail.com', password: 'adeniyi1802');
+
+    final message = Message()
+      ..from = Address(widget.userEmail!, widget.userName!)
+      ..recipients.add(widget.kinEmail!)
+      ..subject = 'Send Help!!!'
+      ..text = body
+      ..html = "<a href='$loading'>Here</a>";
+
+    try {
+      final sendReport = await send(message, smtpServer);
+      print('Message sent: ${sendReport.messageSendingEnd}');
+    } catch (e) {
+      print('Error occurred while sending email: $e');
+    }
   }
 
   @override
@@ -104,6 +134,14 @@ class _DisplayPageState extends State<DisplayPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        position = _determinePosition();
+                      });
+                    },
+                    icon: const Icon(Icons.refresh),
+                  ),
                   SizedBox(
                     height: 40,
                     child: Material(
@@ -129,12 +167,12 @@ class _DisplayPageState extends State<DisplayPage> {
                 ],
               ),
             ),
-            FutureBuilder<Position>(
+            FutureBuilder(
               future: position,
-              builder: (context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
-                  Position position = snapshot.data;
-                  print(position);
+              builder: (context, AsyncSnapshot<Position?> snapshot) {
+                if (snapshot.hasData && snapshot.data != null) {
+                  final pos = snapshot.data;
+
                   return Expanded(
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
@@ -142,13 +180,17 @@ class _DisplayPageState extends State<DisplayPage> {
                       child: GoogleMap(
                         mapType: MapType.hybrid,
                         initialCameraPosition: CameraPosition(
-                          bearing: 0.0,
-                          target: LatLng(position.longitude, position.latitude),
-                          tilt: 60.0,
-                          zoom: 14.0,
+                          target: LatLng(pos!.latitude, pos.longitude),
+                          zoom: 19.4,
                         ),
-                        onMapCreated: (GoogleMapController controller) {
-                          _controller.complete(controller);
+                        onTap: (argument) {
+                          log(argument.toString());
+                        },
+                        indoorViewEnabled: true,
+                        myLocationButtonEnabled: true,
+                        myLocationEnabled: true,
+                        onMapCreated: (GoogleMapController controller) async {
+                          mapController = controller;
                         },
                       ),
                     ),
@@ -164,39 +206,57 @@ class _DisplayPageState extends State<DisplayPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Center(
-                    child: SizedBox(
-                      width: 120,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(25),
-                        shadowColor: Colors.redAccent,
-                        color: Colors.red[800],
-                        elevation: 5.0,
-                        child: TextButton(
-                          onPressed: () async {
-                            Position position = await _determinePosition();
-                            var location = await http.get(Uri.parse(
-                                "https://api.mapbox.com/geocoding/v5/mapbox.places/${position.longitude},${position.latitude}.json?access_token=pk.eyJ1IjoibXU1dGVlIiwiYSI6ImNreGxyYWVjMjFpd28yeHViaTMxd2NtYWUifQ.MRM4cIK7PhfnnDqyoJnZgg"));
+                    child: Material(
+                      borderRadius: BorderRadius.circular(25),
+                      shadowColor: Colors.redAccent,
+                      color: Colors.red[800],
+                      elevation: 5.0,
+                      child: TextButton(
+                        onPressed: () async {
+                          setState(() {
+                            loading = true;
+                          });
+                          Position position = await _determinePosition();
+                          final url =
+                              "https://api.mapbox.com/geocoding/v5/mapbox.places/${position.longitude},${position.latitude}.json?access_token=pk.eyJ1IjoibXU1dGVlIiwiYSI6ImNreGxyYWVjMjFpd28yeHViaTMxd2NtYWUifQ.MRM4cIK7PhfnnDqyoJnZgg";
+                          try {
+                            final location = await http.get(Uri.parse(url));
+
                             if (location.statusCode == 200) {
                               var jsonResponse = convert.jsonDecode(location.body) as Map<String, dynamic>;
 
-                              String address = jsonResponse['features'][0]['place_name'];
-                              String message =
-                                  "An accident has occured to ${widget.userName} at $address! \nPlease send emergency assistance.";
-                              String recipents = widget.kinNum ?? "";
-
-                              await HelpSMS().send_sms(message, recipents).whenComplete(() => print('done'));
+                              final address = jsonResponse['features'][0]['place_name'];
+                              final message =
+                                  "${widget.userName} needs your help at this $address! \nPlease send assistance.";
+                              final recipents = widget.kinNum;
+                              log(recipents.toString());
+                              log(message);
+                              sendEmail(message, url);
+                              await HelpSMS().send_sms(message, recipents!).whenComplete(() => print('done'));
+                              setState(() {
+                                loading = false;
+                              });
                             } else {
                               print('No location found');
                             }
-                          },
-                          child: const Text(
-                            'HELP!',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30,
-                            ),
-                          ),
+                          } catch (e) {
+                            log(e.toString());
+                            setState(() {
+                              loading = false;
+                            });
+                          }
+                        },
+                        child: Center(
+                          child: loading
+                              ? const CircularProgressIndicator.adaptive()
+                              : const Text(
+                                  'SEND HELP!',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25,
+                                  ),
+                                ),
                         ),
                       ),
                     ),

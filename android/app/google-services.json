@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "260928031881",
+    "project_id": "accidetector-3e1fe",
+    "storage_bucket": "accidetector-3e1fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260928031881:android:bdf58fdd688454fae94a58",
+        "android_client_info": {
+          "package_name": "com.example.accidetector"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAy9WXec8kdwxDuIdlMNToz7TzOEdsij9I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

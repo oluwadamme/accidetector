@@ -31,8 +31,9 @@ class SensorInfoHolder {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(name, style: const TextStyle(color: Colors.cyanAccent, fontWeight: FontWeight.bold)),
-          Text(vendorName, style: const TextStyle(color: Colors.cyanAccent, fontWeight: FontWeight.bold))
+          Flexible(child: Text(name, style: const TextStyle(color: Colors.cyanAccent, fontWeight: FontWeight.bold))),
+          Flexible(
+              child: Text(vendorName, style: const TextStyle(color: Colors.cyanAccent, fontWeight: FontWeight.bold)))
         ],
       ),
       const Divider(
