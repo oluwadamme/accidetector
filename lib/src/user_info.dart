@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:accidetector/landing_page.dart';
+import 'package:accidetector/src/display_page.dart';
 
 class InfoPage extends StatefulWidget {
   final String userName;

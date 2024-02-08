@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
-import 'landing_page.dart';
+import '../../main.dart';
+import '../display_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupPage extends StatefulWidget {
@@ -17,7 +17,7 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController signUpKinName = TextEditingController();
   TextEditingController signUpKinEmail = TextEditingController();
   TextEditingController signUpKinNum = TextEditingController();
-
+  late SharedPreferences prefs;
   @override
   void dispose() {
     signUpName.dispose();
@@ -30,27 +30,32 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() async => prefs = await SharedPreferences.getInstance());
+  }
+
+  final formKey = GlobalKey<FormState>();
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
         backgroundColor: Colors.cyan[800],
-        title: const Center(
-          child: Text(
-            'ACCIDENT DETECTOR',
-            style: TextStyle(fontSize: 25, color: Colors.white),
-          ),
+        title: const Text(
+          'ACCIDENT DETECTOR',
+          style: TextStyle(fontSize: 25, color: Colors.white),
         ),
       ),
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
-              child: const Text(
+          child: Form(
+        key: formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+          child: Column(
+            children: <Widget>[
+              const Text(
                 "Create an Account ",
                 style: TextStyle(
                   fontFamily: 'SourceSanPro',
@@ -58,10 +63,7 @@ class _SignupPageState extends State<SignupPage> {
                   color: Colors.cyan,
                 ),
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   TextFormField(
@@ -71,6 +73,7 @@ class _SignupPageState extends State<SignupPage> {
                       fontFamily: 'SourceSansPro',
                     ),
                     obscureText: false,
+                    keyboardType: TextInputType.name,
                     decoration: const InputDecoration(
                       labelText: 'Name',
                       labelStyle: TextStyle(
@@ -85,10 +88,16 @@ class _SignupPageState extends State<SignupPage> {
                         borderSide: BorderSide(color: Colors.cyan),
                       ),
                     ),
+                    onChanged: (value) => setState(() {}),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return "field must not be empty";
+                      }
+                      Future.microtask(() async => await prefs.setString('name', signUpName.text.trim().toString()));
+                      return null;
+                    },
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   TextFormField(
                     controller: signUpEmail,
                     style: const TextStyle(
@@ -96,6 +105,7 @@ class _SignupPageState extends State<SignupPage> {
                       fontFamily: 'SourceSansPro',
                     ),
                     obscureText: false,
+                    keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
                       labelText: 'Email',
                       labelStyle: TextStyle(
@@ -110,10 +120,19 @@ class _SignupPageState extends State<SignupPage> {
                         borderSide: BorderSide(color: Colors.cyan),
                       ),
                     ),
+                    onChanged: (value) => setState(() {}),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return "field must not be empty";
+                      }
+                      if (!value.contains("@")) {
+                        return "email is invalid";
+                      }
+                      Future.microtask(() async => await prefs.setString('email', signUpEmail.text.trim().toString()));
+                      return null;
+                    },
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   TextFormField(
                     controller: signUpNum,
                     style: const TextStyle(
@@ -121,6 +140,18 @@ class _SignupPageState extends State<SignupPage> {
                       fontFamily: 'SourceSansPro',
                     ),
                     obscureText: false,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return "field must not be empty";
+                      }
+                      if (value.trim().length < 11) {
+                        return "phone field must be 11 digits";
+                      }
+                      Future.microtask(() async => await prefs.setString('num', signUpNum.text.trim().toString()));
+                      return null;
+                    },
+                    onChanged: (value) => setState(() {}),
+                    keyboardType: TextInputType.phone,
                     decoration: const InputDecoration(
                       labelText: 'Phone no.',
                       labelStyle: TextStyle(
@@ -136,9 +167,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   TextFormField(
                     controller: signUpKinName,
                     style: const TextStyle(
@@ -146,6 +175,16 @@ class _SignupPageState extends State<SignupPage> {
                       fontFamily: 'SourceSansPro',
                     ),
                     obscureText: false,
+                    keyboardType: TextInputType.name,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return "field must not be empty";
+                      }
+                      Future.microtask(
+                          () async => await prefs.setString('kinName', signUpKinName.text.trim().toString()));
+                      return null;
+                    },
+                    onChanged: (value) => setState(() {}),
                     decoration: const InputDecoration(
                       labelText: "Kin's name",
                       labelStyle: TextStyle(
@@ -161,9 +200,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   TextFormField(
                     controller: signUpKinEmail,
                     style: const TextStyle(
@@ -171,6 +208,21 @@ class _SignupPageState extends State<SignupPage> {
                       fontFamily: 'SourceSansPro',
                     ),
                     obscureText: false,
+                    onChanged: (value) => setState(() {}),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return "field must not be empty";
+                      }
+                      if (!value.trim().contains("@")) {
+                        return "email is invalid";
+                      }
+                      if (value.trim() == signUpEmail.text.trim()) {
+                        return "kin's email cannot be same as email";
+                      }
+                      Future.microtask(
+                          () async => await prefs.setString('kinEmail', signUpKinEmail.text.trim().toString()));
+                      return null;
+                    },
                     decoration: const InputDecoration(
                       labelText: "Kin's email",
                       labelStyle: TextStyle(
@@ -186,9 +238,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   TextFormField(
                     controller: signUpKinNum,
                     style: const TextStyle(
@@ -196,6 +246,21 @@ class _SignupPageState extends State<SignupPage> {
                       fontFamily: 'SourceSansPro',
                     ),
                     obscureText: false,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "field must not be empty";
+                      }
+                      if (value.trim().length < 11) {
+                        return "phone field must be 11 digits";
+                      }
+                      // if (value.trim() == signUpKinNum.text.trim()) {
+                      //   return "kin's phone number cannot be same as yours";
+                      // }
+                      Future.microtask(
+                          () async => await prefs.setString('kinNum', signUpKinNum.text.trim().toString()));
+                      return null;
+                    },
+                    onChanged: (value) => setState(() {}),
                     decoration: const InputDecoration(
                       labelText: "Kin's phone no.",
                       labelStyle: TextStyle(
@@ -211,52 +276,43 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   Center(
-                    child: SizedBox(
-                      height: 30,
-                      width: 70,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(25),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
                         shadowColor: Colors.cyanAccent,
-                        color: Colors.cyan[800],
+                        backgroundColor: Colors.cyan[800],
                         elevation: 3.0,
-                        child: TextButton(
-                          onPressed: () async {
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                            await prefs.setString('name', signUpName.text.toString());
-                            await prefs.setString('email', signUpEmail.text.toString());
-                            await prefs.setString('num', signUpNum.text.toString());
-                            await prefs.setString('kinName', signUpKinName.text.toString());
-                            await prefs.setString('kinEmail', signUpKinEmail.text.toString());
-                            await prefs.setString('kinNum', signUpKinNum.text.toString());
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (builder) => DisplayPage(
-                                          userName: signUpName.text,
-                                          userEmail: signUpEmail.text,
-                                          userNum: signUpNum.text,
-                                          kinName: signUpKinName.text,
-                                          kinEmail: signUpKinEmail.text,
-                                          kinNum: signUpKinNum.text,
-                                        )));
-                          },
-                          child: const Text(
-                            'Submit',
-                            style: TextStyle(
-                              color: Colors.white,
+                      ),
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builder) => DisplayPage(
+                                userName: signUpName.text.trim(),
+                                userEmail: signUpEmail.text.trim(),
+                                userNum: signUpNum.text.trim(),
+                                kinName: signUpKinName.text.trim(),
+                                kinEmail: signUpKinEmail.text.trim(),
+                                kinNum: signUpKinNum.text.trim(),
+                              ),
                             ),
-                          ),
+                          );
+                        }
+                      },
+                      child: const Text(
+                        'Submit',
+                        style: TextStyle(
+                          color: Colors.white,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 15,
-                  ),
+                  const SizedBox(height: 15),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -291,20 +347,10 @@ class _SignupPageState extends State<SignupPage> {
                   )
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       )),
     );
   }
-
-  // save() async {
-  //   await SecondPage.init();
-  //   //prefs.setString('name', signUpName.text.toString());
-  //   //prefs.setString('email', signUpEmail.text.toString());
-  //   //prefs.setString('num', signUpNum.text.toString());
-  //   //prefs.setString('kinName', signUpKinName.text.toString());
-  //   //prefs.setString('kinEmail', signUpKinEmail.text.toString());
-  //   //prefs.setString('kinNum', signUpKinNum.text.toString());
-  // }
 }

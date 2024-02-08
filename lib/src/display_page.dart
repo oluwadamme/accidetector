@@ -1,9 +1,9 @@
 import 'dart:convert' as convert;
-import 'package:accidetector/send_sms.dart';
-import 'package:accidetector/user_info.dart';
+import 'package:accidetector/src/auth/login_page.dart';
+import 'package:accidetector/src/utils/send_sms.dart';
+import 'package:accidetector/src/user_info.dart';
 import 'package:flutter/material.dart';
-import 'main.dart';
-import 'sensors.dart';
+import 'sensor/sensors.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -30,15 +30,13 @@ class DisplayPage extends StatefulWidget {
 }
 
 class _DisplayPageState extends State<DisplayPage> {
-  dynamic location;
-
   final Completer<GoogleMapController> _controller = Completer();
-
-  // final CameraPosition _kUserLocation = CameraPosition(
-  //     bearing: 0.0,
-  //     target: LatLng(position.longitude, position.latitude),
-  //     tilt: 60.0,
-  //     zoom: 10.0);
+  late Future<Position> position;
+  @override
+  void initState() {
+    super.initState();
+    position = _determinePosition();
+  }
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -83,11 +81,9 @@ class _DisplayPageState extends State<DisplayPage> {
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
         backgroundColor: Colors.cyan[800],
-        title: const Center(
-          child: Text(
-            'ACCIDENT DETECTOR',
-            style: TextStyle(fontSize: 25, color: Colors.white),
-          ),
+        title: const Text(
+          'ACCIDENT DETECTOR',
+          style: TextStyle(fontSize: 25, color: Colors.white),
         ),
       ),
       body: SafeArea(
@@ -110,7 +106,6 @@ class _DisplayPageState extends State<DisplayPage> {
                   ),
                   SizedBox(
                     height: 40,
-                    width: 70,
                     child: Material(
                       borderRadius: BorderRadius.circular(25),
                       shadowColor: Colors.redAccent,
@@ -135,32 +130,34 @@ class _DisplayPageState extends State<DisplayPage> {
               ),
             ),
             FutureBuilder<Position>(
-                future: _determinePosition(),
-                builder: (context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    Position position = snapshot.data;
-                    print(position);
-                    return Expanded(
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 2 / 3,
-                        child: GoogleMap(
-                          mapType: MapType.normal,
-                          initialCameraPosition: CameraPosition(
-                              bearing: 0.0,
-                              target: LatLng(position.longitude, position.latitude),
-                              tilt: 60.0,
-                              zoom: 10.0),
-                          onMapCreated: (GoogleMapController controller) {
-                            _controller.complete(controller);
-                          },
+              future: position,
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  Position position = snapshot.data;
+                  print(position);
+                  return Expanded(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 2 / 3,
+                      child: GoogleMap(
+                        mapType: MapType.hybrid,
+                        initialCameraPosition: CameraPosition(
+                          bearing: 0.0,
+                          target: LatLng(position.longitude, position.latitude),
+                          tilt: 60.0,
+                          zoom: 14.0,
                         ),
+                        onMapCreated: (GoogleMapController controller) {
+                          _controller.complete(controller);
+                        },
                       ),
-                    );
-                  } else {
-                    return const CircularProgressIndicator();
-                  }
-                }),
+                    ),
+                  );
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
@@ -168,7 +165,6 @@ class _DisplayPageState extends State<DisplayPage> {
                 children: [
                   Center(
                     child: SizedBox(
-                      height: 45,
                       width: 120,
                       child: Material(
                         borderRadius: BorderRadius.circular(25),
@@ -234,35 +230,31 @@ class _DisplayPageState extends State<DisplayPage> {
                       ),
                       const SizedBox(height: 10.0),
                       Center(
-                        child: SizedBox(
-                          height: 30,
-                          width: 120,
-                          child: Material(
-                            borderRadius: BorderRadius.circular(25),
-                            shadowColor: Colors.cyanAccent,
-                            color: Colors.cyan[800],
-                            elevation: 3.0,
-                            child: TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (builder) => InfoPage(
-                                      userEmail: widget.userEmail ?? "",
-                                      userName: widget.userName ?? "",
-                                      userNum: widget.userNum ?? "",
-                                      kinEmail: widget.kinEmail ?? "",
-                                      kinName: widget.kinName ?? "",
-                                      kinNum: widget.kinNum ?? "",
-                                    ),
+                        child: Material(
+                          borderRadius: BorderRadius.circular(25),
+                          shadowColor: Colors.cyanAccent,
+                          color: Colors.cyan[800],
+                          elevation: 3.0,
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (builder) => InfoPage(
+                                    userEmail: widget.userEmail ?? "",
+                                    userName: widget.userName ?? "",
+                                    userNum: widget.userNum ?? "",
+                                    kinEmail: widget.kinEmail ?? "",
+                                    kinName: widget.kinName ?? "",
+                                    kinNum: widget.kinNum ?? "",
                                   ),
-                                );
-                              },
-                              child: const Text(
-                                'My information',
-                                style: TextStyle(
-                                  color: Colors.white,
                                 ),
+                              );
+                            },
+                            child: const Text(
+                              'My information',
+                              style: TextStyle(
+                                color: Colors.white,
                               ),
                             ),
                           ),
