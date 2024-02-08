@@ -1,4 +1,5 @@
 import 'dart:convert' as convert;
+import 'dart:developer';
 import 'package:accidetector/src/auth/login_page.dart';
 import 'package:accidetector/src/utils/send_sms.dart';
 import 'package:accidetector/src/user_info.dart';
@@ -30,12 +31,14 @@ class DisplayPage extends StatefulWidget {
 }
 
 class _DisplayPageState extends State<DisplayPage> {
-  final Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController? mapController;
   late Future<Position> position;
   @override
   void initState() {
     super.initState();
-    position = _determinePosition();
+    setState(() {
+      position = _determinePosition();
+    });
   }
 
   Future<Position> _determinePosition() async {
@@ -68,10 +71,16 @@ class _DisplayPageState extends State<DisplayPage> {
       // Permissions are denied forever, handle appropriately.
       return Future.error('Location permissions are permanently denied, we cannot request permissions.');
     }
-
+    final position =
+        await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best, forceAndroidLocationManager: true);
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
+    if (mapController != null) {
+      await mapController!
+          .animateCamera(CameraUpdate.newLatLngZoom(LatLng(position.latitude, position.longitude), 19.4));
+    }
+
+    return position;
   }
 
   @override
@@ -104,6 +113,14 @@ class _DisplayPageState extends State<DisplayPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        position = _determinePosition();
+                      });
+                    },
+                    icon: const Icon(Icons.refresh),
+                  ),
                   SizedBox(
                     height: 40,
                     child: Material(
@@ -129,12 +146,12 @@ class _DisplayPageState extends State<DisplayPage> {
                 ],
               ),
             ),
-            FutureBuilder<Position>(
+            FutureBuilder(
               future: position,
-              builder: (context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
-                  Position position = snapshot.data;
-                  print(position);
+              builder: (context, AsyncSnapshot<Position?> snapshot) {
+                if (snapshot.hasData && snapshot.data != null) {
+                  final pos = snapshot.data;
+
                   return Expanded(
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
@@ -142,13 +159,16 @@ class _DisplayPageState extends State<DisplayPage> {
                       child: GoogleMap(
                         mapType: MapType.hybrid,
                         initialCameraPosition: CameraPosition(
-                          bearing: 0.0,
-                          target: LatLng(position.longitude, position.latitude),
-                          tilt: 60.0,
-                          zoom: 14.0,
+                          target: LatLng(pos!.latitude, pos.longitude),
+                          zoom: 19.4,
                         ),
-                        onMapCreated: (GoogleMapController controller) {
-                          _controller.complete(controller);
+                        onTap: (argument) {
+                          log(argument.toString());
+                        },
+                        myLocationButtonEnabled: true,
+                        myLocationEnabled: true,
+                        onMapCreated: (GoogleMapController controller) async {
+                          mapController = controller;
                         },
                       ),
                     ),
