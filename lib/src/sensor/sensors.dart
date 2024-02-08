@@ -32,6 +32,16 @@ class _SensorMainState extends State<SensorMainHome> {
   final List<RelativeHumidity> _listRelativeHumidity = [];
   final List<AmbientRoomTemperature> _listAmbientRoomTemperature = [];
 
+  @override
+  void initState() {
+    // stateful widget initialization done here
+    super.initState();
+    _methodChannel = const MethodChannel(_methodChannelName);
+    _eventChannel = const EventChannel(_eventChannelName);
+    getSensorsList();
+    _eventChannel.receiveBroadcastStream().listen(_onData, onError: _onError);
+  }
+
   Future<void> getSensorsList() async {
     Map<String, List<dynamic>> sensorCount;
     try {
@@ -109,25 +119,18 @@ class _SensorMainState extends State<SensorMainHome> {
       });
       // ignore: empty_catches
     } on PlatformException {}
-    setState(() {
-      // UI rebuilding is done here
-      _isFirstUIBuildDone = true;
-    });
-  }
-
-  @override
-  void initState() {
-    // stateful widget initialization done here
-    super.initState();
-    _methodChannel = const MethodChannel(_methodChannelName);
-    _eventChannel = const EventChannel(_eventChannelName);
-    getSensorsList();
-    _eventChannel.receiveBroadcastStream().listen(_onData, onError: _onError);
+    if (mounted) {
+      setState(() {
+        // UI rebuilding is done here
+        _isFirstUIBuildDone = true;
+      });
+    }
   }
 
   @override
   void dispose() {
     getSensorsList();
+
     super.dispose();
   }
 
@@ -140,7 +143,7 @@ class _SensorMainState extends State<SensorMainHome> {
     // on sensor data reception, update data holders of different supported sensor types
     if (!_isFirstUIBuildDone) return;
     Map<String, String> receivedData = Map<String, String>.from(event);
-
+    if (!mounted) return;
     switch (receivedData['type']) {
       case '1':
         for (var item in _listAccelerometer) {
